@@ -1,46 +1,34 @@
 import { Scenes, Markup } from "telegraf";
 import { callbackQuery } from "telegraf/filters";
-import { MyContext } from "../bot";
-import { Constants } from "../types";
+import {
+  createInlineKeyboardRows,
+  getFirstPartByUnderscore,
+} from "../utils/helpers";
+import { MyContext } from "../types";
 
 export const districtScene = new Scenes.BaseScene<MyContext>("districtScene");
 
-export const createInlineKeyboardRows = (
-  buttons: [string, string][],
-  buttonsPerRow: number
-) => {
-  const rows: [string, string][][] = [];
-  for (let i = 0; i < buttons.length; i += buttonsPerRow) {
-    rows.push(buttons.slice(i, i + buttonsPerRow));
-  }
-  return rows.map((row) =>
-    row.map(([label, callbackData]) =>
-      Markup.button.callback(label, callbackData)
-    )
-  );
-};
-
 districtScene.enter((ctx) => {
-  const districts: Constants = {
-    location_kharkiv: [
-      ["Холодногірський", "district_holodnogirskiy"],
-      ["Шевченківський", "district_shevchenkivskiy"],
-      ["Київський", "district_kyivskiy"],
-      ["Салтівський", "district_saltivskiy"],
-      ["Немишлянський", "district_nemishlyanskiy"],
-      ["Індустріальний", "district_industrial"],
-      ["Слобідський", "district_slobidsky"],
-      ["Основ'янський", "district_osnovyansky"],
-      ["Новобаварський", "district_novobavarskiy"],
+  const districts: { [key: string]: [string, string][] } = {
+    Харків: [
+      ["Холодногірський", "Холодногірський_district"],
+      ["Шевченківський", "Шевченківський_district"],
+      ["Київський", "Київський_district"],
+      ["Салтівський", "Салтівський_district"],
+      ["Немишлянський", "Немишлянський_district"],
+      ["Індустріальний", "Індустріальний_district"],
+      ["Слобідський", "Слобідський_district"],
+      ["Основ'янський", "Основ'янський_district"],
+      ["Новобаварський", "Новобаварський_district"],
     ],
-    location_region: [
-      ["Богодухівський", "district_bogodukhivskiy"],
-      ["Ізюмський", "district_izumskiy"],
-      ["Красноградський", "district_krasnohradskiy"],
-      ["Куп'янський", "district_kupyanskskiy"],
-      ["Лозівський", "district_lozivskiy"],
-      ["Харківський", "district_kharkivskiy"],
-      ["Чугуївський", "district_chuguivskiy"],
+    "Харківська область": [
+      ["Богодухівський", "Богодухівський_district"],
+      ["Ізюмський", "Ізюмський_district"],
+      ["Красноградський", "Красноградський_district"],
+      ["Куп'янський", "Куп'янський_district"],
+      ["Лозівський", "Лозівський_district"],
+      ["Харківський", "Харківський_district"],
+      ["Чугуївський", "Чугуївський_district"],
     ],
   };
 
@@ -49,7 +37,7 @@ districtScene.enter((ctx) => {
     const rows = createInlineKeyboardRows(districtButtons, 2);
     rows.push([Markup.button.callback("Назад", "back")]);
     ctx.reply(
-      `ви обрали ${ctx.session.userData.location} Оберіть район:`,
+      `Ви обрали ${ctx.session.userData.location}. Оберіть район:`,
       Markup.inlineKeyboard(rows)
     );
   } else {
@@ -58,9 +46,11 @@ districtScene.enter((ctx) => {
   }
 });
 
-districtScene.action(/district_.+/, (ctx) => {
+districtScene.action(/.+_district/, (ctx) => {
   if (ctx.has(callbackQuery("data"))) {
-    ctx.session.userData.district = ctx.callbackQuery.data;
+    ctx.session.userData.district = getFirstPartByUnderscore(
+      ctx.callbackQuery.data
+    );
   }
   console.log(ctx.session.userData);
   ctx.scene.enter("worksScene");
