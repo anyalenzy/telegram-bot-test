@@ -14,8 +14,22 @@ contactFormScene.enter(async (ctx) => {
     await ctx.editMessageText(
       selectedWorksText,
       Markup.inlineKeyboard([
-        Markup.button.callback("Залишити контактні дані", "контакти"),
+        [
+          Markup.button.callback(
+            "Залишити контактні дані",
+            "enter_contact_info"
+          ),
+        ],
+        [Markup.button.callback("<< Назад", "back")],
       ])
     );
   }
+});
+
+contactFormScene.action("enter_contact_info", async (ctx) => {
+  await ctx.scene.enter("nameScene");
+});
+
+contactFormScene.action("back", (ctx) => {
+  ctx.scene.enter("worksScene");
 });

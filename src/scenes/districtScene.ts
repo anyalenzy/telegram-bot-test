@@ -35,8 +35,8 @@ districtScene.enter((ctx) => {
   const districtButtons = districts[ctx.session.userData.location!];
   if (districtButtons) {
     const rows = createInlineKeyboardRows(districtButtons, 2);
-    rows.push([Markup.button.callback("Назад", "back")]);
-    ctx.reply(
+    rows.push([Markup.button.callback("<< Назад", "back")]);
+    ctx.editMessageText(
       `Ви обрали ${ctx.session.userData.location}. Оберіть район:`,
       Markup.inlineKeyboard(rows)
     );
@@ -52,7 +52,6 @@ districtScene.action(/.+_district/, (ctx) => {
       ctx.callbackQuery.data
     );
   }
-  console.log(ctx.session.userData);
   ctx.scene.enter("worksScene");
 });
 

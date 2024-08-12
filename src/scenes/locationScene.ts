@@ -6,7 +6,7 @@ import { getFirstPartByUnderscore } from "../utils/helpers";
 export const locationScene = new Scenes.BaseScene<MyContext>("locationScene");
 
 locationScene.enter((ctx) => {
-  ctx.reply(
+  ctx.editMessageText(
     `Обрана площа: ${ctx.session.userData.area}. Де знаходиться об'єкт?`,
     Markup.inlineKeyboard([
       [Markup.button.callback("Харків", "Харків_location")],
@@ -16,7 +16,7 @@ locationScene.enter((ctx) => {
           "Харківська область_location"
         ),
       ],
-      [Markup.button.callback("Назад", "back")],
+      [Markup.button.callback("<< Назад", "back")],
     ])
   );
 });

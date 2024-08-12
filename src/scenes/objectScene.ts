@@ -15,7 +15,7 @@ objectScene.enter((ctx) => {
     district: "",
     works: [],
   };
-  ctx.reply(
+  ctx.editMessageText(
     "Який об'єкт вам потрібно відновити?",
     Markup.inlineKeyboard([
       [Markup.button.callback("Квартира", "квартира_objectType")],

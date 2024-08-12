@@ -13,8 +13,8 @@ export interface UserData {
   location?: string;
   district?: string;
   works?: string[];
-  // editingField?: string;
   contactInfo?: UserContactInfo;
+  editingField?: string;
 }
 
 interface MySession extends Scenes.SceneSession {

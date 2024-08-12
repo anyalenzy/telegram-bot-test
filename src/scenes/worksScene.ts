@@ -29,15 +29,15 @@ worksScene.enter((ctx) => {
       ["Інше", "інше_work"],
     ],
   };
-
+  ctx.session.userData.works = [];
   const workButtons = works[ctx.session.userData.objectType!];
   const rows = createInlineKeyboardRows(workButtons, 2);
   rows.push(
-    [Markup.button.callback("Назад", "back")],
+    [Markup.button.callback("<< Назад", "back")],
     [Markup.button.callback("Завершити вибір", "finish_selection")]
   );
-  ctx.reply(
-    `Ви обрали${ctx.session.userData.district} район. Які будівельні роботи потрібно виконати?`,
+  ctx.editMessageText(
+    `Ви обрали ${ctx.session.userData.district} район. Які будівельні роботи потрібно виконати?`,
     Markup.inlineKeyboard(rows)
   );
 });
@@ -60,11 +60,20 @@ worksScene.action("finish_selection", (ctx) => {
   if (ctx.session.userData.works?.length) {
     ctx.scene.enter("contactFormScene");
   } else {
-    ctx.editMessageText("Ви не обрали жодних робіт. Зробіть свій вибір");
-    ctx.scene.enter("workScene");
+    ctx.editMessageText(
+      "Ви не обрали жодних робіт. Зробіть свій вибір",
+      Markup.inlineKeyboard([
+        Markup.button.callback("Повернутись до вибору", "return"),
+      ])
+    );
   }
+  ctx.answerCbQuery();
 });
 
 worksScene.action("back", (ctx) => {
   ctx.scene.enter("districtScene");
+});
+
+worksScene.action("return", (ctx) => {
+  ctx.scene.reenter();
 });

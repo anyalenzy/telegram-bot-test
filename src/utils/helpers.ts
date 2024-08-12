@@ -1,4 +1,4 @@
-import { Markup, Context } from "telegraf";
+import { Markup } from "telegraf";
 
 export const createInlineKeyboardRows = (
   buttons: [string, string][],
@@ -17,10 +17,10 @@ export const createInlineKeyboardRows = (
 
 export const createEditButtons = () =>
   Markup.inlineKeyboard([
-    [Markup.button.callback("Змінити ім'я", "edit_name")],
-    [Markup.button.callback("Змінити телефон", "edit_phone")],
-    [Markup.button.callback("Змінити адресу", "edit_address")],
-    [Markup.button.callback("Підтвердити", "confirm_contact")],
+    [Markup.button.callback("Змінити ім'я", "name_edit")],
+    [Markup.button.callback("Змінити телефон", "phone_edit")],
+    [Markup.button.callback("Змінити адресу", "address_edit")],
+    [Markup.button.callback("Підтвердити", "confirm")],
   ]);
 
 export const getFirstPartByUnderscore = (str: string): string => {
