@@ -7,21 +7,18 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const webhookDomain = process.env.WEBHOOK_DOMAIN;
-const webhookPath = `/webhook/${process.env.BOT_TOKEN}`;
-const webhookUrl = `${webhookDomain}${webhookPath}`;
+bot
+  .launch()
+  .then(() => {
+    console.log("Bot launched successfully");
+  })
+  .catch((error) => {
+    console.error("Error launching bot:", error);
+  });
 
-// bot.telegram
-//   .setWebhook(webhookUrl)
-//   .then(() => {
-//     console.log("Webhook set successfully");
-//   })
-//   .catch((error) => {
-//     console.error("Error setting webhook:", error);
-//   });
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
 
-// app.use(bot.webhookCallback(webhookPath));
-// console.log("Webhook URL:", webhookUrl);
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
 });

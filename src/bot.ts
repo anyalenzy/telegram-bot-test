@@ -44,16 +44,5 @@ bot.start((ctx) => startHandler(ctx));
 
 bot.action("continue", continueHandler);
 
-bot
-  .launch()
-  .then(() => {
-    console.log("Bot launched successfully");
-  })
-  .catch((error) => {
-    console.error("Error launching bot:", error);
-  });
-
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
 
 export default bot;
