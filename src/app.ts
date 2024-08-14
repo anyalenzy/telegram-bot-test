@@ -11,17 +11,17 @@ const webhookDomain = process.env.WEBHOOK_DOMAIN;
 const webhookPath = `/webhook/${process.env.BOT_TOKEN}`;
 const webhookUrl = `${webhookDomain}${webhookPath}`;
 
-bot.telegram
-  .setWebhook(webhookUrl)
-  .then(() => {
-    console.log("Webhook set successfully");
-  })
-  .catch((error) => {
-    console.error("Error setting webhook:", error);
-  });
+// bot.telegram
+//   .setWebhook(webhookUrl)
+//   .then(() => {
+//     console.log("Webhook set successfully");
+//   })
+//   .catch((error) => {
+//     console.error("Error setting webhook:", error);
+//   });
 
-app.use(bot.webhookCallback(webhookPath));
-console.log("Webhook URL:", webhookUrl);
+// app.use(bot.webhookCallback(webhookPath));
+// console.log("Webhook URL:", webhookUrl);
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
 });

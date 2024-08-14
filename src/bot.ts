@@ -13,6 +13,7 @@ import { addressScene } from "./scenes/addressScene";
 import { confirmScene } from "./scenes/confirmScene";
 import { editScene } from "./scenes/editScene";
 import { MyContext } from "./types";
+import "dotenv/config";
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
@@ -42,5 +43,17 @@ bot.use(stage.middleware());
 bot.start((ctx) => startHandler(ctx));
 
 bot.action("continue", continueHandler);
+
+bot
+  .launch()
+  .then(() => {
+    console.log("Bot launched successfully");
+  })
+  .catch((error) => {
+    console.error("Error launching bot:", error);
+  });
+
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
 
 export default bot;
