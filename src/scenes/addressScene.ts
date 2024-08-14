@@ -12,6 +12,6 @@ addressScene.on(message("text"), async (ctx) => {
   const text = ctx.message.text;
   if (ctx.session.userData?.contactInfo) {
     ctx.session.userData.contactInfo.address = text;
-    await ctx.scene.enter("confirmScene");
+    await ctx.scene.enter("editScene");
   }
 });
