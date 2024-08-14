@@ -1,7 +1,7 @@
 {
   "name": "telegram-bot-test",
   "version": "1.0.0",
-  "main": "dist/app.ts",
+  "main": "dist/app.js",
   "scripts": {
     "start": "node dist/app.ts",
     "build": "tsc",
