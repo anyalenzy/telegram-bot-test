@@ -21,7 +21,7 @@ bot.telegram
   });
 
 app.use(bot.webhookCallback(webhookPath));
-
+console.log("Webhook URL:", webhookUrl);
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
 });
