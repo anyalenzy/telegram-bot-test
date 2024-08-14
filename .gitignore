@@ -11,3 +11,4 @@ node_modules/
 # Игнорировать файлы конфигураций IDE
 .vscode/
 .idea/
+.vercel
